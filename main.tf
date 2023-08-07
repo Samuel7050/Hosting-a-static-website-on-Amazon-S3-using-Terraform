@@ -50,6 +50,6 @@ resource "aws_s3_bucket_website_configuration" "mytfbucket_website_configuration
 resource "aws_s3_bucket_object" "website_file" {
  bucket = aws_s3_bucket.mytfbucket.id
  key    = "terraform_key"
- source = "C:\Users\HP\Desktop\Azure\index.html"
- etag = filemd5("C:\Users\HP\Desktop\Azure\index.html")
+ source = "C:/Users/HP/Desktop/Azure/index.html"
+ etag = filemd5("C:/Users/HP/Desktop/Azure/index.html")
 }
