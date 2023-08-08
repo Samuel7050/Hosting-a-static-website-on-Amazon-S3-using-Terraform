@@ -1,22 +1,22 @@
 # create S3 bucket
 resource "aws_s3_bucket" "mytfbucket" {
-  bucket = "staticwsebsite007"
+  bucket = var.bucket
 
   tags = {
-    Name        = "static_website007"
+    Name        = "static_website"
     Environment = "Dev"
   }
 }
 # Bucket ownership control
 resource "aws_s3_bucket_ownership_controls" "mytfbucket_ownership_control" {
-  bucket = aws_s3_bucket.mytfbucket.id
+  bucket = var.bucket
   rule {
     object_ownership = "BucketOwnerPreferred"
   }
 }
 # Bucket public access block
 resource "aws_s3_bucket_public_access_block" "mytfbucket_public_access_block" {
-  bucket = aaws_s3_bucket.mytfbucket.id
+  bucket = var.bucket
 
   block_public_acls       = false
   block_public_policy     = false
@@ -30,12 +30,12 @@ resource "aws_s3_bucket_acl" "mytfbucket_acl" {
     aws_s3_bucket_public_access_block.mytfbucket_public_access_block,
   ]
 
-  bucket = aws_s3_bucket.mytfbucket.id
+  bucket = var.bucket
   acl    = "public-read"
 }
 # Bucket website configurations
 resource "aws_s3_bucket_website_configuration" "mytfbucket_website_configuration" {
-  bucket = aws_s3_bucket.mytfbucket.id
+  bucket = var.bucket
 
   index_document {
     suffix = "index.html"
@@ -44,12 +44,12 @@ resource "aws_s3_bucket_website_configuration" "mytfbucket_website_configuration
   error_document {
     key = "error.html"
   }
- }
+}
 
 # Upload an object
-resource "aws_s3_bucket_object" "website_file" {
- bucket = aws_s3_bucket.mytfbucket.id
- key    = "terraform_key"
- source = "C:/Users/HP/Desktop/Azure/index.html"
- etag = filemd5("C:/Users/HP/Desktop/Azure/index.html")
+resource "aws_s3_object" "website_file" {
+  bucket = var.bucket
+  key    = "terraform_key"
+  source = "C:/Users/HP/Desktop/Azure/index.html"
+  etag   = filemd5("C:/Users/HP/Desktop/Azure/index.html")
 }
