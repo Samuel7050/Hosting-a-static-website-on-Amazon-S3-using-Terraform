@@ -1,6 +1,6 @@
 # create S3 bucket
 resource "aws_s3_bucket" "bucket" {
-  bucket = tfbucket007
+  bucket = var.bucket
 }
 
 # Bucket ownership control
@@ -27,13 +27,13 @@ resource "aws_s3_bucket_website_configuration" "bucket-website-configuration" {
   index_document {
     suffix = "index.html"
   }
- }
+}
 
 # Upload an object
 resource "aws_s3_object" "file" {
   bucket = aws_s3_bucket.bucket.id
   key    = "index.html"
- source = "index.html"
+  source = "index.html"
 }
 
 
