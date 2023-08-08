@@ -33,7 +33,7 @@ resource "aws_s3_bucket_website_configuration" "bucket-website-configuration" {
 resource "aws_s3_object" "file" {
   bucket = aws_s3_bucket.bucket.id
   key    = "index.html"
- source = "C:\Users\HP\Desktop\Terraform_Project\Hosting-a-static-website-on-Amazon-S3-using-Terraform\index.html"
+ source = "index.html"
 }
 
 
