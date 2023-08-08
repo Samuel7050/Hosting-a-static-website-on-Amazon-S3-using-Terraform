@@ -12,3 +12,8 @@ output "bucket_domain" {
   description = "s3 bucket_domain"
   value       = aws_s3_bucket_website_configuration.tf_bucket.website_endpoint
 }
+
+
+utput "website_url" {
+  value = "http://${aws_s3_bucket.tf_bucket.bucket}.s3-website.${var.region}.amazonaws.com"
+  }
