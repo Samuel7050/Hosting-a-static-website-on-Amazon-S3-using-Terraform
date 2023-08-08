@@ -14,7 +14,7 @@ resource "aws_s3_bucket_ownership_controls" "bucket-ownership-control" {
 
 #Bucket acl
 resource "aws_s3_bucket_acl" "bucket-acl" {
-  depends_on = [aws_s3_bucket_ownership_controls.bucket]
+  depends_on = [aws_s3_bucket_ownership_controls.bucket-ownership-control]
 
   bucket = aws_s3_bucket.bucket.id
   acl    = "public-read"
