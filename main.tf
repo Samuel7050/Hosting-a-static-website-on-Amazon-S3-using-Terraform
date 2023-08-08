@@ -1,11 +1,11 @@
 # create S3 bucket
-resource "aws_s3_bucket" "bucket" {
-  bucket = var.bucket
+resource "aws_s3_bucket" "tf_bucket" {
+  bucket = var.bucket_name
 }
 
 # Bucket ownership control
-resource "aws_s3_bucket_ownership_controls" "bucket-ownership-control" {
-  bucket = aws_s3_bucket.bucket.id
+resource "aws_s3_bucket_ownership_controls" "tf_bucket" {
+  bucket = aws_s3_bucket.tf_bucket.id
 
   rule {
     object_ownership = "BucketOwnerPreferred"
@@ -13,16 +13,28 @@ resource "aws_s3_bucket_ownership_controls" "bucket-ownership-control" {
 }
 
 #Bucket acl
-resource "aws_s3_bucket_acl" "bucket-acl" {
-  depends_on = [aws_s3_bucket_ownership_controls.bucket-ownership-control]
+resource "aws_s3_bucket_public_access_block" "tf_bucket" {
+  bucket = aws_s3_bucket.tf_bucket.id
 
-  bucket = aws_s3_bucket.bucket.id
+  block_public_acls       = false
+  block_public_policy     = false
+  ignore_public_acls      = false
+  restrict_public_buckets = false
+}
+
+resource "aws_s3_bucket_acl" "tf_bucket" {
+  depends_on = [
+    aws_s3_bucket_ownership_controls.tf_bucket,
+    aws_s3_bucket_public_access_block.tf_bucket,
+  ]
+
+  bucket = aws_s3_bucket.tf_bucket.id
   acl    = "public-read"
 }
 
 # Bucket website configurations
-resource "aws_s3_bucket_website_configuration" "bucket-website-configuration" {
-  bucket = aws_s3_bucket.bucket.id
+resource "aws_s3_bucket_website_configuration" "tf_bucket" {
+  bucket = aws_s3_bucket.tf_bucket.id
 
   index_document {
     suffix = "index.html"
@@ -31,7 +43,7 @@ resource "aws_s3_bucket_website_configuration" "bucket-website-configuration" {
 
 # Upload an object
 resource "aws_s3_object" "file" {
-  bucket = aws_s3_bucket.bucket.id
+  bucket = aws_s3_bucket.tf_bucket.id
   key    = "index.html"
   source = "index.html"
 }
