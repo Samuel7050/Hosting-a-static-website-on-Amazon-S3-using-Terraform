@@ -61,9 +61,9 @@ resource "aws_s3_bucket_website_configuration" "tf_bucket" {
 
 # Upload an object
 resource "aws_s3_object" "file" {
-  bucket = aws_s3_bucket.tf_bucket.id
-  key    = "index.html"
-  source = "index.html"
-  acl    = "public-read"
+  bucket       = aws_s3_bucket.tf_bucket.id
+  key          = "index.html"
+  source       = "index.html"
+  acl          = "public-read"
   content_type = "text/html"
 }
