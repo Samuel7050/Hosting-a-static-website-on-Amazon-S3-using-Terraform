@@ -30,7 +30,7 @@ resource "aws_s3_bucket_policy" "public_access_policy" {
   })
 }
 
-#Bucket acl
+#Opening  public access 
 resource "aws_s3_bucket_public_access_block" "tf_bucket" {
   bucket = aws_s3_bucket.tf_bucket.id
 
@@ -62,8 +62,8 @@ resource "aws_s3_bucket_website_configuration" "tf_bucket" {
 # Upload an object
 resource "aws_s3_object" "file" {
   bucket       = aws_s3_bucket.tf_bucket.id
-  key          = "index.html"
-  source       = "index.html"
+  key          = "index.html" # the website file 
+  source       = "index.html" #  the path/location of the file 
   acl          = "public-read"
   content_type = "text/html"
 }
